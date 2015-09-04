@@ -1,0 +1,3 @@
+;;; js2-extra.el --- tweak js2 settings -*- lexical-binding: t; -*-
+
+(provide 'js2-extra)
