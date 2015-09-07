@@ -263,4 +263,7 @@
     (unless first-line
       (indent-line-to offset))))
 
+(require 'js2-refactor)
+(add-hook 'js2-mode-hook #'js2-refactor-mode)
+
 (provide 'js2-extra)
