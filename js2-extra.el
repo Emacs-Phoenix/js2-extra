@@ -54,8 +54,6 @@
          (looking-at (regexp-quote close)))
     (forward-char (length close)))
 
-   ((js2-mode-inside-comment-or-string)
-    (funcall 'self-insert-command 1))
 
    (:else
     (let ((end (js2r--something-to-close-statement)))
@@ -147,8 +145,8 @@
 (define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
 
 ;; When renaming/deleting js-files, check for corresponding testfile
-(define-key js2-mode-map (kbd "C-x C-r") 'js2r-rename-current-buffer-file)
-(define-key js2-mode-map (kbd "C-x C-k") 'js2r-delete-current-buffer-file)
+;;(define-key js2-mode-map (kbd "C-x C-r") 'js2r-rename-current-buffer-file)
+;;(define-key js2-mode-map (kbd "C-x C-k") 'js2r-delete-current-buffer-file)
 
 (define-key js2-mode-map (kbd "C-k") 'js2r-kill)
 
