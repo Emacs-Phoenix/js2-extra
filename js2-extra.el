@@ -101,11 +101,11 @@
    ((js2r--does-not-need-semi) "")
    (:else ";")))
 
-(js2r--setup-wrapping-pair "(" ")")
-(js2r--setup-wrapping-pair "{" "}")
-(js2r--setup-wrapping-pair "[" "]")
-(js2r--setup-wrapping-pair "\"" "\"")
-(js2r--setup-wrapping-pair "'" "'")
+;; (js2r--setup-wrapping-pair "(" ")")
+;; (js2r--setup-wrapping-pair "{" "}")
+;; (js2r--setup-wrapping-pair "[" "]")
+;; (js2r--setup-wrapping-pair "\"" "\"")
+;; (js2r--setup-wrapping-pair "'" "'")
 
 ;;
 
@@ -120,8 +120,8 @@
 
 (define-key js2-mode-map (kbd "C-c RET ta") 'toggle-assert-refute)
 
-(defadvice js2r-inline-var (after reindent-buffer activate)
-  (cleanup-buffer))
+;; (defadvice js2r-inline-var (after reindent-buffer activate)
+;;   (cleanup-buffer))
 
 (defun js2-hide-test-functions ()
   (interactive)
@@ -131,7 +131,7 @@
       (while (re-search-forward "\"[^\"]+\": function (")
         (js2-mode-hide-element)))))
 
-(define-key js2-mode-map (kbd "C-c t") 'js2-hide-test-functions)
+;;(define-key js2-mode-map (kbd "C-c t") 'js2-hide-test-functions)
 
 ;; js2-mode steals TAB, let's steal it back for yasnippet
 (defun js2-tab-properly ()
@@ -142,7 +142,7 @@
       (if (looking-back "^\s*")
           (back-to-indentation)))))
 
-(define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
+                                        ;(define-key js2-mode-map (kbd "TAB") 'js2-tab-properly)
 
 ;; When renaming/deleting js-files, check for corresponding testfile
 ;;(define-key js2-mode-map (kbd "C-x C-r") 'js2r-rename-current-buffer-file)
@@ -150,37 +150,37 @@
 
 (define-key js2-mode-map (kbd "C-k") 'js2r-kill)
 
-(comment ;; avoid confusing shorthands
- ;; Use lambda for anonymous functions
- (font-lock-add-keywords
-  'js2-mode `(("\\(function\\) *("
-               (0 (progn (compose-region (match-beginning 1)
-                                         (match-end 1) "\u0192")
-                         nil)))))
+;; (comment ;; avoid confusing shorthands
+;;  ;; Use lambda for anonymous functions
+;;  (font-lock-add-keywords
+;;   'js2-mode `(("\\(function\\) *("
+;;                (0 (progn (compose-region (match-beginning 1)
+;;                                          (match-end 1) "\u0192")
+;;                          nil)))))
 
- ;; Use right arrow for return in one-line functions
- (font-lock-add-keywords
-  'js2-mode `(("function *([^)]*) *{ *\\(return\\) "
-               (0 (progn (compose-region (match-beginning 1)
-                                         (match-end 1) "\u2190")
-                         nil))))))
+;; Use right arrow for return in one-line functions
+;; (font-lock-add-keywords
+;;  'js2-mode `(("function *([^)]*) *{ *\\(return\\) "
+;;               (0 (progn (compose-region (match-beginning 1)
+;;                                         (match-end 1) "\u2190")
+;;                         nil))))))
 
 ;; After js2 has parsed a js file, we look for jslint globals decl comment ("/* global Fred, _, Harry */") and
 ;; add any symbols to a buffer-local var of acceptable global vars
 ;; Note that we also support the "symbol: true" way of specifying names via a hack (remove any ":true"
 ;; to make it look like a plain decl, and any ':false' are left behind so they'll effectively be ignored as
 ;; you can;t have a symbol called "someName:false"
-(add-hook 'js2-post-parse-callbacks
-          (lambda ()
-            (when (> (buffer-size) 0)
-              (let ((btext (replace-regexp-in-string
-                            ": *true" " "
-                            (replace-regexp-in-string "[\n\t ]+" " " (buffer-substring-no-properties 1 (buffer-size)) t t))))
-                (mapc (apply-partially 'add-to-list 'js2-additional-externs)
-                      (split-string
-                       (if (string-match "/\\* *global *\\(.*?\\) *\\*/" btext) (match-string-no-properties 1 btext) "")
-                       " *, *" t))
-                ))))
+;; (add-hook 'js2-post-parse-callbacks
+;;           (lambda ()
+;;             (when (> (buffer-size) 0)
+;;               (let ((btext (replace-regexp-in-string
+;;                             ": *true" " "
+;;                             (replace-regexp-in-string "[\n\t ]+" " " (buffer-substring-no-properties 1 (buffer-size)) t t))))
+;;                 (mapc (apply-partially 'add-to-list 'js2-additional-externs)
+;;                       (split-string
+;;                        (if (string-match "/\\* *global *\\(.*?\\) *\\*/" btext) (match-string-no-properties 1 btext) "")
+;;                        " *, *" t))
+;;                 ))))
 
 (require 'json)
 
